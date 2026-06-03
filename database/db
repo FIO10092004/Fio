@@ -1,0 +1,157 @@
+CREATE DATABASE gestion_tareas;
+USE gestion_tareas;
+-- CLIENTES
+CREATE TABLE clientes (
+id INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(200) NOT NULL,
+contacto VARCHAR(100),
+telefono VARCHAR(20),
+correo VARCHAR(100),
+direccion VARCHAR(255),
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+-- PROYECTOS
+CREATE TABLE proyectos (
+id INT AUTO_INCREMENT PRIMARY KEY,
+cliente_id INT NULL,
+nombre VARCHAR(200) NOT NULL,
+tipo ENUM(
+    'SCRIPT',
+    'SISTEMA',
+    'LABORATORIO',
+    'TALLER'
+) NOT NULL,
+responsable VARCHAR(100) NOT NULL,
+prioridad ENUM(
+    'PUEDE_ESPERAR',
+    'IMPORTANTE',
+    'ALTO',
+    'MUY_ALTO'
+) DEFAULT 'PUEDE_ESPERAR',
+avance DECIMAL(5,2) DEFAULT 0,
+fecha_inicio DATE,
+fecha_entrega DATE,
+estado ENUM(
+    'STAND_BY',
+    'EN_PROGRESO',
+    'FINALIZADO',
+    'CANCELADO'
+) DEFAULT 'STAND_BY',
+carpeta VARCHAR(500),
+observaciones TEXT,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (cliente_id)
+REFERENCES clientes(id)
+ON DELETE SET NULL);
+-- COMPONENTES
+CREATE TABLE componentes (
+id INT AUTO_INCREMENT PRIMARY KEY,
+proyecto_id INT NOT NULL,
+nombre VARCHAR(100) NOT NULL,
+responsable VARCHAR(100),
+avance DECIMAL(5,2) DEFAULT 0,
+estado ENUM(
+    'PENDIENTE',
+    'EN_PROGRESO',
+    'FINALIZADO'
+) DEFAULT 'PENDIENTE',
+FOREIGN KEY (proyecto_id)
+REFERENCES proyectos(id)
+ON DELETE CASCADE);
+-- ACTIVIDADES
+CREATE TABLE actividades (
+id INT AUTO_INCREMENT PRIMARY KEY,
+proyecto_id INT NOT NULL,
+componente_id INT NULL,
+nombre VARCHAR(200) NOT NULL,
+descripcion TEXT,
+responsable VARCHAR(100),
+prioridad ENUM(
+    'BAJA',
+    'MEDIA',
+    'ALTA'
+) DEFAULT 'MEDIA',
+avance DECIMAL(5,2) DEFAULT 0,
+estado ENUM(
+    'PENDIENTE',
+    'EN_PROGRESO',
+    'FINALIZADA'
+) DEFAULT 'PENDIENTE',
+fecha_inicio DATE,
+fecha_fin DATE,
+FOREIGN KEY (proyecto_id)
+REFERENCES proyectos(id)
+ON DELETE CASCADE,
+FOREIGN KEY (componente_id)
+REFERENCES componentes(id)
+ON DELETE SET NULL);
+-- MODIFICACIONES
+CREATE TABLE modificaciones (
+id INT AUTO_INCREMENT PRIMARY KEY,
+proyecto_id INT NOT NULL,
+descripcion TEXT NOT NULL,
+solicitante VARCHAR(100),
+estado ENUM(
+    'PENDIENTE',
+    'IMPLEMENTADA'
+) DEFAULT 'PENDIENTE',
+fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (proyecto_id)
+REFERENCES proyectos(id)
+ON DELETE CASCADE);
+-- HISTORIAL
+CREATE TABLE historial (
+id INT AUTO_INCREMENT PRIMARY KEY,
+proyecto_id INT NOT NULL,
+accion VARCHAR(255) NOT NULL,
+detalle TEXT,
+fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (proyecto_id)
+REFERENCES proyectos(id)
+ON DELETE CASCADE);
+-- DATOS DE PRUEBA
+INSERT INTO clientes(nombre, contacto)
+VALUES
+('CAJA HUANCAYO','Carlos Medina'),
+('CAJA PAITA','Luis Torres');
+INSERT INTO proyectos(
+cliente_id,
+nombre,
+tipo,
+responsable,
+prioridad,
+avance,
+fecha_inicio,
+estado
+)
+VALUES
+(
+NULL,
+'INDEXAR AUDIOS',
+'SCRIPT',
+'JHON',
+'IMPORTANTE',
+10,
+'2026-05-29',
+'EN_PROGRESO'
+),
+(
+NULL,
+'BUSQUEDA POR DNI',
+'SISTEMA',
+'JHON',
+'PUEDE_ESPERAR',
+5,
+'2026-05-29',
+'STAND_BY'
+),
+(
+1,
+'SISTEMA CREDITOS',
+'SISTEMA',
+'JHON',
+'ALTO',
+25,
+'2026-05-29',
+'EN_PROGRESO'
+);
