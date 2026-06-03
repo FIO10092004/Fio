@@ -1,9 +1,12 @@
 <?php
 
-$host = "localhost";
+$host = "database";
+
 $dbname = "gestion_tareas";
+
 $user = "root";
-$password = "";
+
+$password = "root";
 
 try {
 
@@ -18,11 +21,8 @@ try {
         PDO::ERRMODE_EXCEPTION
     );
 
-}
-catch(PDOException $e){
+} catch(PDOException $e){
 
-    die(
-        $e->getMessage()
-    );
+    die($e->getMessage());
 
 }
