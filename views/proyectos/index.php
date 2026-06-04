@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="UTF-8">
 
 <title>Proyectos</title>
 
@@ -24,7 +24,7 @@ Listado de Proyectos
 </h2>
 
 <a
-href="?accion=crear"
+href="../../router.php?accion=crear"
 class="btn btn-success">
 
 Nuevo Proyecto
@@ -50,19 +50,13 @@ Nuevo Proyecto
 
 </thead>
 
-<?php 
+<tbody>
 
-    
-    foreach($proyectos as $p): 
-    
-    echo "".$p[""]."".$p[""]
-    
-?>
+<?php foreach($proyectos as $p): ?>
 
 <tr>
 
 <td><?= $p['id'] ?></td>
-
 <td><?= $p['nombre'] ?></td>
 
 <td><?= $p['tipo'] ?></td>

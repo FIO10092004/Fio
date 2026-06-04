@@ -16,7 +16,6 @@ class ProyectoController
     {
         $proyectos =
         $this->modelo->listar();
-        $dd = $this->modelo->listar();
 
         require
         'views/proyectos/index.php';
@@ -33,7 +32,9 @@ class ProyectoController
         $this->modelo->guardar($_POST);
 
         header(
-            "Location:index.php"
+            "Location: router.php"
         );
+
+        exit;
     }
 }

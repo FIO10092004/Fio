@@ -4,44 +4,13 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require_once 'config/conexion.php';
-$totalProyectos = $conexion
-->query("SELECT COUNT(*) FROM proyectos")
-->fetchColumn();
-
-$enProgreso = $conexion
-->query("
-SELECT COUNT(*)
-FROM proyectos
-WHERE estado='EN_PROGRESO'
-")
-->fetchColumn();
-
-$standBy = $conexion
-->query("
-SELECT COUNT(*)
-FROM proyectos
-WHERE estado='STAND_BY'
-")
-->fetchColumn();
-
-$finalizados = $conexion
-->query("
-SELECT COUNT(*)
-FROM proyectos
-WHERE estado='FINALIZADO'
-")
-->fetchColumn();
-
 $proyectos = $conexion
 ->query("
 SELECT *
 FROM proyectos
 ORDER BY id DESC
 ")
-->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -52,318 +21,109 @@ ORDER BY id DESC
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>
-Sistema de Gestión de Tareas
-</title>
+<title>Proyectos</title>
 
 <link
 href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 rel="stylesheet">
 
-<style>
-
-body{
-    background:#f4f6f9;
-}
-
-.sidebar{
-
-    width:250px;
-    height:100vh;
-
-    position:fixed;
-
-    background:#1f2937;
-
-    color:white;
-}
-
-.sidebar a{
-
-    color:white;
-
-    text-decoration:none;
-
-    display:block;
-
-    padding:12px 20px;
-}
-
-.sidebar a:hover{
-
-    background:#374151;
-}
-
-.content{
-
-    margin-left:250px;
-
-    padding:20px;
-}
-
-.card-dashboard{
-
-    border:none;
-
-    box-shadow:
-    0 2px 10px rgba(0,0,0,.1);
-}
-
-</style>
-
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
-
-<div class="sidebar">
-
-    <h4 class="p-3">
-
-        GESTIÓN TAREAS
-
-    </h4>
-
-    <hr>
-
-    <a href="index.php">
-
-        Dashboard
-
-    </a>
-
-    <a href="routes.php">
-        Proyectos
-
-    </a>
-
-    <a href="actividades/index.php">
-
-        Actividades
-
-    </a>
-
-    <a href="modificaciones/index.php">
-
-        Modificaciones
-
-    </a>
-
-    <a href="componentes/index.php">
-
-        Componentes
-
-    </a>
-
-    <a href="historial/index.php">
-
-        Historial
-
-    </a>
-
-    <a href="clientes/index.php">
-
-        Clientes
-
-    </a>
-
-    <a href="propuestas/index.php">
-
-        Propuestas Económicas
-
-    </a>
-
-</div>
-
-<!-- CONTENIDO -->
-
-<div class="content">
+<div class="container mt-4">
 
     <h2>
-
-        Dashboard
-
+        Listado de Proyectos
     </h2>
+
+    <a
+    href="router.php?accion=crear"
+    class="btn btn-success">
+
+        Nuevo Proyecto
+
+    </a>
 
     <hr>
 
-    <div class="row">
+    <table class="table table-bordered table-striped">
 
-        <div class="col-md-3">
+        <thead class="table-dark">
 
-            <div class="card card-dashboard">
+            <tr>
 
-                <div class="card-body">
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Responsable</th>
+                <th>Avance</th>
+                <th>Estado</th>
 
-                    <h5>
+            </tr>
 
-                        Total Proyectos
+        </thead>
 
-                    </h5>
+        <tbody>
 
-                    <h2>
+        <?php foreach($proyectos as $p): ?>
 
-                        <?= $totalProyectos ?>
+            <tr>
 
-                    </h2>
+                <td>
+                    <?= $p['id'] ?>
+                </td>
 
-                </div>
+                <td>
+                    <?= $p['nombre'] ?>
+                </td>
 
-            </div>
+                <td>
+                    <?= $p['tipo'] ?>
+                </td>
 
-        </div>
+                <td>
+                    <?= $p['responsable'] ?>
+                </td>
 
-        <div class="col-md-3">
+                <td>
+                    <?= $p['avance'] ?>%
+                </td>
 
-            <div class="card card-dashboard">
+                <td>
 
-                <div class="card-body">
+                    <?php
+                    if($p['estado']=='EN_PROGRESO')
+                    {
+                        echo '<span class="badge bg-primary">EN PROGRESO</span>';
+                    }
+                    elseif($p['estado']=='FINALIZADO')
+                    {
+                        echo '<span class="badge bg-success">FINALIZADO</span>';
+                    }
+                    else
+                    {
+                        echo '<span class="badge bg-warning text-dark">STAND BY</span>';
+                    }
+                    ?>
 
-                    <h5>
+                </td>
 
-                        En Progreso
+            </tr>
 
-                    </h5>
+        <?php endforeach; ?>
 
-                    <h2>
+        </tbody>
 
-                        <?= $enProgreso ?>
+    </table>
 
-                    </h2>
+    <a
+    href="index.php"
+    class="btn btn-secondary">
 
-                </div>
+        Volver al Dashboard
 
-            </div>
-
-        </div>
-
-        <div class="col-md-3">
-
-            <div class="card card-dashboard">
-
-                <div class="card-body">
-
-                    <h5>
-
-                        Stand By
-
-                    </h5>
-
-                    <h2>
-
-                        <?= $standBy ?>
-
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3">
-
-            <div class="card card-dashboard">
-
-                <div class="card-body">
-
-                    <h5>
-
-                        Finalizados
-
-                    </h5>
-
-                    <h2>
-
-                        <?= $finalizados ?>
-
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <br>
-
-    <div class="card">
-
-        <div class="card-header">
-
-            Últimos Proyectos
-
-        </div>
-
-        <div class="card-body">
-
-            <table
-            class="table table-bordered">
-
-                <thead>
-
-                <tr>
-
-                    <th>ID</th>
-
-                    <th>Nombre</th>
-
-                    <th>Tipo</th>
-
-                    <th>Responsable</th>
-
-                    <th>Avance</th>
-
-                    <th>Estado</th>
-
-                </tr>
-
-                </thead>
-
-                <tbody>
-
-                <?php foreach($proyectos as $p): ?>
-
-                <tr>
-
-                    <td>
-                        <?= $p['id'] ?>
-                    </td>
-
-                    <td>
-                        <?= $p['nombre'] ?>
-                    </td>
-
-                    <td>
-                        <?= $p['tipo'] ?>
-                    </td>
-
-                    <td>
-                        <?= $p['responsable'] ?>
-                    </td>
-
-                    <td>
-                        <?= $p['avance'] ?>%
-                    </td>
-
-                    <td>
-                        <?= $p['estado'] ?>
-                    </td>
-
-                </tr>
-
-                <?php endforeach; ?>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
+    </a>
 
 </div>
 
