@@ -4,13 +4,6 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require_once 'config/conexion.php';
-
-/*
-|--------------------------------------------------------------------------
-| CONSULTAS DASHBOARD
-|--------------------------------------------------------------------------
-*/
-
 $totalProyectos = $conexion
 ->query("SELECT COUNT(*) FROM proyectos")
 ->fetchColumn();
@@ -140,8 +133,7 @@ body{
 
     </a>
 
-    <a href="proyectos/index.php">
-
+    <a href="routes.php">
         Proyectos
 
     </a>

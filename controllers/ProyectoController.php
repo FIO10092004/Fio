@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../models/Proyecto.php';
+require_once 'models/Proyecto.php';
 
 class ProyectoController
 {
@@ -16,14 +16,15 @@ class ProyectoController
     {
         $proyectos =
         $this->modelo->listar();
+        $dd = $this->modelo->listar();
 
-        require_once
+        require
         'views/proyectos/index.php';
     }
 
     public function crear()
     {
-        require_once
+        require
         'views/proyectos/crear.php';
     }
 
@@ -32,7 +33,7 @@ class ProyectoController
         $this->modelo->guardar($_POST);
 
         header(
-            "Location: index.php"
+            "Location:index.php"
         );
     }
 }

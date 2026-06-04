@@ -1,14 +1,11 @@
 <!DOCTYPE html>
-
 <html>
 
 <head>
 
 <meta charset="utf-8">
 
-<title>
-Proyectos
-</title>
+<title>Proyectos</title>
 
 <link
 href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -36,21 +33,31 @@ Nuevo Proyecto
 
 <hr>
 
-<table
-class="table table-bordered">
+<table class="table table-bordered">
+
+<thead>
 
 <tr>
 
 <th>ID</th>
 <th>Nombre</th>
 <th>Tipo</th>
-<th>Cliente</th>
 <th>Responsable</th>
+<th>Avance</th>
 <th>Estado</th>
 
 </tr>
 
-<?php foreach($proyectos as $p): ?>
+</thead>
+
+<?php 
+
+    
+    foreach($proyectos as $p): 
+    
+    echo "".$p[""]."".$p[""]
+    
+?>
 
 <tr>
 
@@ -60,15 +67,17 @@ class="table table-bordered">
 
 <td><?= $p['tipo'] ?></td>
 
-<td><?= $p['cliente'] ?></td>
-
 <td><?= $p['responsable'] ?></td>
+
+<td><?= $p['avance'] ?>%</td>
 
 <td><?= $p['estado'] ?></td>
 
 </tr>
 
 <?php endforeach; ?>
+
+</tbody>
 
 </table>
 
