@@ -1,4 +1,3 @@
-CREATE DATABASE gestion_tareas;
 USE gestion_tareas;
 -- CLIENTES
 CREATE TABLE clientes (

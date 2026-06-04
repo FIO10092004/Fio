@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 
 <title>
-Gestión de Tareas
+Proyectos
 </title>
 
 <link
@@ -22,9 +22,17 @@ rel="stylesheet">
 
 <h2>
 
-Gestión de Tareas
+Listado de Proyectos
 
 </h2>
+
+<a
+href="?accion=crear"
+class="btn btn-success">
+
+Nuevo Proyecto
+
+</a>
 
 <hr>
 
@@ -34,17 +42,10 @@ class="table table-bordered">
 <tr>
 
 <th>ID</th>
-
 <th>Nombre</th>
-
 <th>Tipo</th>
-
+<th>Cliente</th>
 <th>Responsable</th>
-
-<th>Prioridad</th>
-
-<th>Avance</th>
-
 <th>Estado</th>
 
 </tr>
@@ -53,33 +54,17 @@ class="table table-bordered">
 
 <tr>
 
-<td>
-<?= $p['id'] ?>
-</td>
+<td><?= $p['id'] ?></td>
 
-<td>
-<?= $p['nombre'] ?>
-</td>
+<td><?= $p['nombre'] ?></td>
 
-<td>
-<?= $p['tipo'] ?>
-</td>
+<td><?= $p['tipo'] ?></td>
 
-<td>
-<?= $p['responsable'] ?>
-</td>
+<td><?= $p['cliente'] ?></td>
 
-<td>
-<?= $p['prioridad'] ?>
-</td>
+<td><?= $p['responsable'] ?></td>
 
-<td>
-<?= $p['avance'] ?>%
-</td>
-
-<td>
-<?= $p['estado'] ?>
-</td>
+<td><?= $p['estado'] ?></td>
 
 </tr>
 
